@@ -1,0 +1,7 @@
+D:\SerialPort\ConsoleSerialPort\ConsoleSerialPort\bin\Debug\ConsoleSerialPort.exe.config
+D:\SerialPort\ConsoleSerialPort\ConsoleSerialPort\bin\Debug\ConsoleSerialPort.exe
+D:\SerialPort\ConsoleSerialPort\ConsoleSerialPort\bin\Debug\ConsoleSerialPort.pdb
+D:\SerialPort\ConsoleSerialPort\ConsoleSerialPort\obj\Debug\ConsoleSerialPort.csprojAssemblyReference.cache
+D:\SerialPort\ConsoleSerialPort\ConsoleSerialPort\obj\Debug\ConsoleSerialPort.csproj.CoreCompileInputs.cache
+D:\SerialPort\ConsoleSerialPort\ConsoleSerialPort\obj\Debug\ConsoleSerialPort.exe
+D:\SerialPort\ConsoleSerialPort\ConsoleSerialPort\obj\Debug\ConsoleSerialPort.pdb
