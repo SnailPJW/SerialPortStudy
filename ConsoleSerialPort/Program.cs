@@ -11,22 +11,20 @@ namespace ConsoleSerialPort
         static string dcDeviceName = "Prolific USB-to-Serial Comm Port";
         static Dictionary<string, string> dictionaryPortName = new Dictionary<string, string>();
         static int countPort = 0;
-        static string connPortName;
+        static string connPortName = string.Empty;
         static void Main(string[] args)
         {
             try
             {
-                //{4d36e978-e325-11ce-bfc1-08002be10318}為設備類別port（端口（COM&LPT））的GUID
                 ManagementObjectSearcher searcher = new ManagementObjectSearcher("root\\CIMV2",
                     "SELECT * FROM Win32_PnPEntity WHERE ClassGuid=\"{4d36e978-e325-11ce-bfc1-08002be10318}\"");
-
+                //{4d36e978-e325-11ce-bfc1-08002be10318}為設備類別port（端口（COM&LPT））的GUID
                 foreach (ManagementObject queryObj in searcher.Get())
                 {
                     string fullName = queryObj.GetPropertyValue("Name").ToString();
                     string[] aryName = Array.ConvertAll(fullName.Split(new char[2] { '(', ')' }), str => str.Trim());
                     dictionaryPortName.Add(aryName[1], aryName[0]);
                 }
-
                 ShowAllInDictionary();
                 GetDCDevice();
             }
@@ -51,6 +49,7 @@ namespace ConsoleSerialPort
         static void GetDCDevice()
         {
             Console.WriteLine("*************************************************");
+            //Console.Write("The Targeted port ");
             bool contains = dictionaryPortName.Values.Any(p => p.Equals(dcDeviceName));
             if (contains)
             {
@@ -62,12 +61,13 @@ namespace ConsoleSerialPort
                         break;
                     }
                 }
+                //Console.WriteLine("is : {0}", connPortName);
             }
             else
             {
-                connPortName = "doesn't exist";
+                //Console.WriteLine("doesn't exist"); connPortName = "";
             }
-            Console.WriteLine("The Targeted port is : {0}",connPortName);
+            Console.WriteLine("The Target port {0}",connPortName.Equals(string.Empty) ? "doesn't exist." : "is " + connPortName);
         }
     }
 }
