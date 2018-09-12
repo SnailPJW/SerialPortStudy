@@ -23,7 +23,7 @@ namespace ConsoleSerialPort
                 foreach (ManagementObject queryObj in searcher.Get())
                 {
                     string fullName = queryObj.GetPropertyValue("Name").ToString();
-                    string[] aryName = fullName.Split(new char[2] { '(', ')' });
+                    string[] aryName = Array.ConvertAll(fullName.Split(new char[2] { '(', ')' }), str => str.Trim());
                     dictionaryPortName.Add(aryName[1], aryName[0]);
                 }
 
@@ -50,18 +50,24 @@ namespace ConsoleSerialPort
         }
         static void GetDCDevice()
         {
-            foreach (var element in dictionaryPortName)
+            Console.WriteLine("*************************************************");
+            bool contains = dictionaryPortName.Values.Any(p => p.Equals(dcDeviceName));
+            if (contains)
             {
-                element.Value.Trim();
-                Console.WriteLine("{1}\t{2}\tThe Result is : {0}", string.Equals(dcDeviceName, element.Value), dcDeviceName.Length, element.Value.Length);
-                
-                //if(!string.Equals(dcDeviceName, element.Value))
-                //{
-                //    connPortName = element.Key;
-                //    break;
-                //}
+                foreach (var element in dictionaryPortName)
+                {
+                    if (string.Equals(dcDeviceName, element.Value))
+                    {
+                        connPortName = element.Key;
+                        break;
+                    }
+                }
             }
-            //Console.WriteLine("The Targeted port is : {0}",connPortName);
+            else
+            {
+                connPortName = "doesn't exist";
+            }
+            Console.WriteLine("The Targeted port is : {0}",connPortName);
         }
     }
 }
