@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO.Ports;
 using System.Linq;
 using System.Management;
+using System.Threading;
 
 namespace ConsoleSerialPort
 {
@@ -12,6 +13,9 @@ namespace ConsoleSerialPort
         static Dictionary<string, string> dictionaryPortName = new Dictionary<string, string>();
         static int countPort = 0;
         static string connPortName = string.Empty;
+        static SerialPort comport;
+        static bool receiving;
+        static Thread t;
         static void Main(string[] args)
         {
             try
@@ -27,6 +31,7 @@ namespace ConsoleSerialPort
                 }
                 ShowAllInDictionary();
                 GetDCDevice();
+                OpenComport();
             }
             catch (Exception e)
             {
@@ -37,6 +42,24 @@ namespace ConsoleSerialPort
                 Console.ReadLine();
             }
         }
+
+        private static void OpenComport()
+        {
+            if (!connPortName.Equals(String.Empty))
+            {
+                return;
+            }
+            comport = new SerialPort(connPortName, 9600, Parity.None, 8, StopBits.One);
+            if (!comport.IsOpen)
+            {
+                comport.Open();
+                receiving = true;
+                t = new Thread(DoReceive);
+                t.IsBackground = true;
+                t.Start();
+            }
+        }
+
         static void ShowAllInDictionary()
         {
             Console.WriteLine("No.\t Port \t Full Name");
